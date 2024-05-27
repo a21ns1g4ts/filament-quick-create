@@ -31,6 +31,8 @@ class QuickCreatePlugin implements Plugin
 
     protected bool | Closure | null $rounded = null;
 
+    protected string $renderUsingHook = 'panels::user-menu.before';
+
     public function boot(Panel $panel): void
     {
         Livewire::component('quick-create-menu', Components\QuickCreateMenu::class);
@@ -146,7 +148,7 @@ class QuickCreatePlugin implements Plugin
     {
         $panel
             ->renderHook(
-                name: 'panels::user-menu.before',
+                name: $this->renderUsingHook,
                 hook: fn (): string => Blade::render('@livewire(\'quick-create-menu\')')
             );
     }
@@ -191,5 +193,12 @@ class QuickCreatePlugin implements Plugin
     public function shouldBeHidden(): bool
     {
         return $this->evaluate($this->hidden) ?? false;
+    }
+
+    public function renderUsingHook(string $panelHook): string
+    {
+        $this->renderUsingHook = $panelHook;
+
+        return $this;
     }
 }

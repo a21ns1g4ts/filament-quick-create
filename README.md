@@ -168,3 +168,21 @@ public function panel(Panel $panel): Panel
         ])
 }
 ```
+
+### Render Plugin on a Custom Panel Hook
+
+By default, Quick Create plugin renders using `'panels::user-menu.before'` Filament Panel Render Hook. If you would like to customize this to render at a different render hook, you may use the `renderUsingHook(string $panelHook)` modifier to do so. You may read about the available Render Hooks in Filament PHP [here](https://filamentphp.com/docs/3.x/support/render-hooks#available-render-hooks)
+
+```php
+use Awcodes\FilamentQuickCreate\QuickCreatePlugin;
+use Filament\View\PanelsRenderHook;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            QuickCreatePlugin::make()
+                ->renderUsingHook(PanelsRenderHook::SIDEBAR_NAV_END),
+        ])
+}
+```

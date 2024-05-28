@@ -195,7 +195,7 @@ class QuickCreatePlugin implements Plugin
         return $this->evaluate($this->hidden) ?? false;
     }
 
-    public function renderUsingHook(string $panelHook): string
+    public function renderUsingHook(string $panelHook): static
     {
         $this->renderUsingHook = $panelHook;
 

@@ -120,6 +120,8 @@ public function panel(Panel $panel): Panel
 
 ### Appearance
 
+#### Rounded
+
 By default, the Quick Create button will be fully rounded if you would like to have a more square button you can disable the rounding with the `rounded()` method.
 
 ```php
@@ -131,6 +133,40 @@ public function panel(Panel $panel): Panel
         ->plugins([
             QuickCreatePlugin::make()
                 ->rounded(false),
+        ])
+}
+```
+
+#### Hiding Icons
+
+If you prefer to not show icons for the items in the menu you can disable them with the `hiddenIcons()` method.
+
+```php
+use Awcodes\FilamentQuickCreate\QuickCreatePlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            QuickCreatePlugin::make()
+                ->hiddenIcons(),
+        ])
+}
+```
+
+#### Settings label
+
+If you prefer to show a label with the plus icon you can set it using the `label()` method and passing your label to it.
+
+```php
+use Awcodes\FilamentQuickCreate\QuickCreatePlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            QuickCreatePlugin::make()
+                ->label('New'),
         ])
 }
 ```

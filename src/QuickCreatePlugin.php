@@ -34,6 +34,10 @@ class QuickCreatePlugin implements Plugin
 
     protected string | Closure | null $renderUsingHook = null;
 
+    protected bool | Closure | null $hiddenIcons = null;
+
+    protected string | Closure | null $label = null;
+
     public function boot(Panel $panel): void
     {
         Livewire::component('quick-create-menu', Components\QuickCreateMenu::class);
@@ -206,5 +210,29 @@ class QuickCreatePlugin implements Plugin
     public function getRenderHook(): string
     {
         return $this->evaluate($this->renderUsingHook) ?? PanelsRenderHook::USER_MENU_BEFORE;
+    }
+
+    public function hiddenIcons(bool | Closure $condition = true): static
+    {
+        $this->hiddenIcons = $condition;
+
+        return $this;
+    }
+
+    public function shouldHideIcons(): bool
+    {
+        return $this->evaluate($this->hiddenIcons) ?? false;
+    }
+
+    public function label(string | Closure $label): static
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    public function getLabel(): ?string
+    {
+        return $this->evaluate($this->label) ?? null;
     }
 }

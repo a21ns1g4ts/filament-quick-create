@@ -4,9 +4,11 @@
         <x-slot name="trigger">
             <button
                 @class([
-                    'flex flex-shrink-0 w-8 h-8 bg-gray-100 items-center justify-center text-primary-500 hover:text-primary-900 dark:bg-gray-800 hover:bg-primary-500 dark:hover:bg-primary-500',
+                    'flex flex-shrink-0 bg-gray-100 items-center justify-center text-primary-500 hover:text-primary-900 dark:bg-gray-800 hover:bg-primary-500 dark:hover:bg-primary-500',
                     'rounded-full' => $rounded,
                     'rounded-md' => ! $rounded,
+                    'w-8 h-8' => ! $label,
+                    'py-1 ps-3 pe-4 gap-1' => $label,
                 ])
                 aria-label="{{ __('filament-quick-create::quick-create.button_label') }}"
             >
@@ -15,12 +17,15 @@
                     icon="heroicon-o-plus"
                     class="w-5 h-5"
                 />
+                @if ($label)
+                    <span class="">{{ $label }}</span>
+                @endif
             </button>
         </x-slot>
         <x-filament::dropdown.list>
             @foreach($resources as $resource)
                 <x-filament::dropdown.list.item
-                    :icon="$resource['icon']"
+                    :icon="$hiddenIcons ? null : $resource['icon']"
                     :wire:click="$resource['action']"
                     :href="$resource['url']"
                     :tag="$resource['url'] ? 'a' : 'button'"

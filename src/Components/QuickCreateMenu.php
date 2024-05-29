@@ -25,6 +25,10 @@ class QuickCreateMenu extends Component implements HasForms, HasActions
 
     public ?bool $rounded = null;
 
+    public bool $hiddenIcons = false;
+
+    public ?string $label = null;
+
     /**
      * @throws Exception
      */
@@ -32,6 +36,8 @@ class QuickCreateMenu extends Component implements HasForms, HasActions
     {
         $this->resources = QuickCreatePlugin::get()->getResources();
         $this->rounded = QuickCreatePlugin::get()->isRounded();
+        $this->hiddenIcons = QuickCreatePlugin::get()->shouldHideIcons();
+        $this->label = QuickCreatePlugin::get()->getLabel();
     }
 
     /**

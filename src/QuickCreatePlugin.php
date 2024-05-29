@@ -7,6 +7,7 @@ use Filament\Contracts\Plugin;
 use Filament\Facades\Filament;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
@@ -31,7 +32,7 @@ class QuickCreatePlugin implements Plugin
 
     protected bool | Closure | null $rounded = null;
 
-    protected string $renderUsingHook = 'panels::user-menu.before';
+    protected string | Closure | null $renderUsingHook = null;
 
     public function boot(Panel $panel): void
     {
@@ -148,8 +149,8 @@ class QuickCreatePlugin implements Plugin
     {
         $panel
             ->renderHook(
-                name: $this->renderUsingHook,
-                hook: fn (): string => Blade::render('@livewire(\'quick-create-menu\')')
+                name: $this->getRenderHook(),
+                hook: fn (): string => Blade::render("@livewire('quick-create-menu')")
             );
     }
 
@@ -195,10 +196,15 @@ class QuickCreatePlugin implements Plugin
         return $this->evaluate($this->hidden) ?? false;
     }
 
-    public function renderUsingHook(string $panelHook): static
+    public function renderUsingHook(string | Closure $panelHook): static
     {
         $this->renderUsingHook = $panelHook;
 
         return $this;
+    }
+
+    public function getRenderHook(): string
+    {
+        return $this->evaluate($this->renderUsingHook) ?? PanelsRenderHook::USER_MENU_BEFORE;
     }
 }

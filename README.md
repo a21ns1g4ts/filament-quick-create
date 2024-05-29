@@ -154,7 +154,7 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-#### Settings label
+#### Setting a label
 
 If you prefer to show a label with the plus icon you can set it using the `label()` method and passing your label to it.
 

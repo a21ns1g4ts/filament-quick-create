@@ -114,8 +114,8 @@ class QuickCreatePlugin implements Plugin
                         'model' => $resource->getModel(),
                         'icon' => $resource->getNavigationIcon(),
                         'action_name' => $actionName,
-                        'action' => ! $resource->hasPage('create') || $this->shouldUseModal ? 'mountAction(\'' . $actionName . '\')' : null,
-                        'url' => $resource->hasPage('create') && ! $this->shouldUseModal ? $resource::getUrl('create') : null,
+                        'action' => ! $resource->hasPage('create') || $this->shouldUseModal() ? 'mountAction(\'' . $actionName . '\')' : null,
+                        'url' => $resource->hasPage('create') && ! $this->shouldUseModal() ? $resource::getUrl('create') : null,
                         'navigation' => $resource->getNavigationSort(),
                     ];
                 }
@@ -243,7 +243,7 @@ class QuickCreatePlugin implements Plugin
         return $this->evaluate($this->shouldUseModal) ?? false;
     }
 
-    public function alwaysShowModal(bool $condition = true): static
+    public function alwaysShowModal(bool | Closure $condition = true): static
     {
         $this->shouldUseModal = $condition;
 

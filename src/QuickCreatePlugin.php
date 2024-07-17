@@ -38,6 +38,8 @@ class QuickCreatePlugin implements Plugin
 
     protected string | Closure | null $label = null;
 
+    protected bool | Closure $shouldUseModal = false;
+
     public function boot(Panel $panel): void
     {
         Livewire::component('quick-create-menu', Components\QuickCreateMenu::class);
@@ -112,8 +114,8 @@ class QuickCreatePlugin implements Plugin
                         'model' => $resource->getModel(),
                         'icon' => $resource->getNavigationIcon(),
                         'action_name' => $actionName,
-                        'action' => ! $resource->hasPage('create') ? 'mountAction(\'' . $actionName . '\')' : null,
-                        'url' => $resource->hasPage('create') ? $resource::getUrl('create') : null,
+                        'action' => ! $resource->hasPage('create') || $this->shouldUseModal ? 'mountAction(\'' . $actionName . '\')' : null,
+                        'url' => $resource->hasPage('create') && ! $this->shouldUseModal ? $resource::getUrl('create') : null,
                         'navigation' => $resource->getNavigationSort(),
                     ];
                 }
@@ -234,5 +236,17 @@ class QuickCreatePlugin implements Plugin
     public function getLabel(): ?string
     {
         return $this->evaluate($this->label) ?? null;
+    }
+
+    public function shouldUseModal(): bool
+    {
+        return $this->evaluate($this->shouldUseModal) ?? false;
+    }
+
+    public function alwaysShowModal(bool $condition = true): static
+    {
+        $this->shouldUseModal = $condition;
+
+        return $this;
     }
 }

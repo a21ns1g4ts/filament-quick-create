@@ -222,3 +222,20 @@ public function panel(Panel $panel): Panel
         ])
 }
 ```
+
+### Forcing all resources to use modals
+
+Quick create will automatically determine if it should redirect to a create page or to show the form in a modal based on the resource. If you prefer to force all items to be show in a modal you can do so with the `alwaysShowModal()` modifier.
+
+```php
+use Awcodes\FilamentQuickCreate\QuickCreatePlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            QuickCreatePlugin::make()
+                ->alwaysShowModal(),
+        ])
+}
+```

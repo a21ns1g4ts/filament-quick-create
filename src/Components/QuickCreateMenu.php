@@ -140,7 +140,8 @@ class QuickCreateMenu extends Component implements HasActions, HasForms
                     }
 
                     $action->success();
-                });
+                })
+                ->createAnother($r->getPages()['create']->getPage()::canCreateAnother());
         })
             ->values()
             ->toArray();
